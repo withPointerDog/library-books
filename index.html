@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Library</title>
+    <link
+      rel="stylesheet"
+      href="/node_modules/bootstrap/dist/css/bootstrap.css"
+    />
+    <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/" />
+    <link
+      rel="stylesheet"
+      href="/node_modules/bootstrap-icons/font/bootstrap-icons.css"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body id="wrapper">
+    <header>
+      <h1 class="title mb-4 mt-2">
+        <i class="bi bi-book-half txt_color"></i>Bo<span class="txt_color"
+          >ok</span
+        >List
+      </h1>
+    </header>
+    <main class="correct-width">
+      <form class="mb-3">
+        <div class="form-floating mb-2">
+          <input
+            type="text"
+            class="form-control"
+            id="title"
+            placeholder="Title"
+          />
+          <label for="title">Title</label>
+        </div>
+        <div class="form-floating mb-2">
+          <input
+            type="text"
+            class="form-control"
+            id="author"
+            placeholder="Author"
+          />
+          <label for="author">Author</label>
+        </div>
+        <div class="form-floating mb-2">
+          <input
+            type="text"
+            class="form-control"
+            id="num"
+            placeholder="Number"
+          />
+          <label for="num">International Standard Book Number</label>
+        </div>
+        <button type="button" class="btn btn-success">Success</button>
+      </form>
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Title</th>
+            <th scope="col">Author</th>
+            <th scope="col">ISBN#</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">1</th>
+            <td>Mark</td>
+            <td>Otto</td>
+            <td>@mdo</td>
+          </tr>
+          <tr>
+            <th scope="row">1</th>
+            <td>Mark</td>
+            <td>Otto</td>
+            <td>@mdo</td>
+          </tr>
+          <tr></tr>
+        </tbody>
+      </table>
+    </main>
+  </body>
+</html>
