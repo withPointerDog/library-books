@@ -14,3 +14,7 @@ main {
 .btn {
   min-width: 100%;
 }
+.btn-close {
+  position: relative;
+  left: 100px;
+}
