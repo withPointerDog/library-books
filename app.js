@@ -1,11 +1,13 @@
 // get items
 const inputs = document.querySelectorAll("input");
 const smbtBtn = document.querySelector(".btn-success");
+const lstBooks = document.getElementById("books_list");
 
-// events
-smbtBtn.addEventListener("click", getDataInputs);
+// data
+const dateInpts = [];
+const allBooks = [];
 
-// - Book (Cоздание сущности Книги (Заголовок, Автор, Серийный номер))
+// class
 class Book {
   constructor(title, authr, SN) {
     this.title = title;
@@ -14,11 +16,22 @@ class Book {
   }
 }
 
-const harry = new Book();
+class UI {
+  addBook() {
+    allBooks.push(new Book(...dateInpts));
+    console.log(allBooks);
+  }
+}
+const ui = new UI();
 
 // functions
 function getDataInputs() {
+  dateInpts.length = 0;
+
   inputs.forEach((input) => {
-    input.value;
+    dateInpts.push(input.value);
   });
 }
+
+// events
+smbtBtn.addEventListener("click", getDataInputs);
