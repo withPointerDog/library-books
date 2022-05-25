@@ -7,7 +7,7 @@ const table = document.querySelector(".table");
 const alertSucc = document.querySelector(".success");
 const alertErr = document.querySelector(".danger");
 
-// - Book (Cоздание сущности Книги (Заголовок, Автор, Серийный номер))
+// - Book
 class Book {
   constructor(title, author, sn) {
     this.title = title;
@@ -16,7 +16,7 @@ class Book {
   }
 }
 
-// - UI (Отображение всего списка книг, Добавление книги, Удаление книги, Показ информационного сообщения)
+// - UI
 class UI {
   dsplCurrentList(list) {
     const crntTBody = document.querySelector(".books_list");
@@ -78,7 +78,7 @@ class UI {
   checkDataValid = () =>
     Array.from(inputs).every((input) => input.value !== "");
 }
-// - Store (Получить весь список книг из хранилища, Добавление/Удаление записи о книге из хранилища)
+// - Store
 class Store extends UI {
   sendBookToLocal(list) {
     localStorage.setItem("books", JSON.stringify(list));
