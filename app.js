@@ -1,31 +1,24 @@
 // get items
+const form = document.querySelector("#main > form");
 const inputs = document.querySelectorAll("input");
-const title = document.querySelector("#title");
-const author = document.querySelector("#author");
-const sn = document.querySelector("#num");
 const smbtBtn = document.querySelector(".btn-success");
+
 const table = document.querySelector(".table");
 const alertSucc = document.querySelector(".success");
 const alertErr = document.querySelector(".danger");
 
-// data
-const books = [];
-
-// class
 // - Book (Cоздание сущности Книги (Заголовок, Автор, Серийный номер))
 class Book {
-  constructor() {
-    this.title = title.value;
-    this.author = author.value;
-    this.sn = sn.value;
+  constructor(title, author, sn) {
+    this.title = title;
+    this.author = author;
+    this.sn = sn;
   }
 }
 
 // - UI (Отображение всего списка книг, Добавление книги, Удаление книги, Показ информационного сообщения)
 class UI {
-  // status;
-
-  dsplCurrentList() {
+  dsplCurrentList(list) {
     const crntTBody = document.querySelector(".books_list");
 
     if (crntTBody) {
@@ -35,14 +28,13 @@ class UI {
     const tblBody = table.createTBody();
     tblBody.classList.add("books_list");
 
-    books.forEach((book, ind) => {
-      const num = ++ind;
+    list.forEach((book, ind) => {
       const newRow = tblBody.insertRow(0);
-      newRow.innerHTML = `<th scope="row">${num}</th>
-                            <td>${book[0]}</td>
-                            <td>${book[1]}</td>
+      newRow.innerHTML = `<th scope="col">${++ind}</th>
+                            <td>${book.title}</td>
+                            <td>${book.author}</td>
                             <td>
-                              @${book[2]}
+                              @${book.sn}
                               <button
                               type="button"
                               class="btn-close btn-outline-danger"
@@ -51,30 +43,24 @@ class UI {
                           </td>`;
       const clsBtn = document.querySelector(".btn-close");
 
-      this.addEventForClsBtn(clsBtn, ind);
+      this.addEventForClsBtn(clsBtn, ind, list);
     });
   }
 
-  addEventForClsBtn(btn, id) {
+  addEventForClsBtn(btn, id, books) {
     btn.addEventListener("click", () => {
-      this.remBookFromArray(--id);
-      store.sendToLocal();
-      this.dsplCurrentList(true);
+      this.remBookFromList(books, --id);
+      store.sendBookToLocal(books);
+      this.dsplCurrentList(books);
     });
   }
 
-  addBookInArray(instance) {
-    if (Array.isArray(instance)) {
-      instance.forEach((book) => {
-        books.push(book);
-      });
-    } else {
-      books.push(Object.values(instance));
-    }
+  addBookInList(instanceBook, list) {
+    list.push(instanceBook);
   }
 
-  remBookFromArray(id) {
-    books.splice(id, 1);
+  remBookFromList(list, id) {
+    list.splice(id, 1);
   }
 
   dsplAlertMsg(status) {
@@ -89,55 +75,48 @@ class UI {
     }
   }
 
-  checkDataValid() {
-    const values = [];
-
-    inputs.forEach((inp) => {
-      values.push(inp.value);
-    });
-
-    const res = values.find((val) => val === "");
-
-    if (res === "") {
-      return false;
-    } else {
-      return true;
-    }
-  }
+  checkDataValid = () =>
+    Array.from(inputs).every((input) => input.value !== "");
 }
 // - Store (Получить весь список книг из хранилища, Добавление/Удаление записи о книге из хранилища)
-class Store {
-  sendToLocal() {
-    localStorage.setItem("book", JSON.stringify(books));
+class Store extends UI {
+  sendBookToLocal(list) {
+    localStorage.setItem("books", JSON.stringify(list));
   }
 
-  getFromLocal() {
-    return JSON.parse(localStorage.getItem("book"));
+  getBooksFromLocal() {
+    const rslt = JSON.parse(localStorage.getItem("books"));
+
+    if (rslt === null) {
+      return [];
+    } else {
+      return JSON.parse(localStorage.getItem("books"));
+    }
   }
 }
 
 const ui = new UI();
 const store = new Store();
 
+//load page
+const initBooksList = store.getBooksFromLocal();
+
+if (initBooksList.length) {
+  ui.dsplCurrentList(initBooksList);
+}
+
 // events
 smbtBtn.addEventListener("click", () => {
   const status = ui.checkDataValid();
 
   if (status) {
-    const book = new Book();
+    const book = new Book(inputs[0].value, inputs[1].value, inputs[2].value);
+    form.reset();
     ui.dsplAlertMsg(status);
-    ui.addBookInArray(book);
-    store.sendToLocal();
-    ui.dsplCurrentList();
+    ui.addBookInList(book, initBooksList);
+    ui.dsplCurrentList(initBooksList);
+    store.sendBookToLocal(initBooksList);
   } else {
     ui.dsplAlertMsg(status);
   }
 });
-
-//load page
-const initialList = store.getFromLocal();
-
-if (initialList.length) {
-  ui.addBookInArray(initialList);
-  ui.dsplCurrentList();
-}

@@ -13,10 +13,9 @@
   min-width: 100%;
 }
 .btn-close {
-  position: relative;
-  left: 100px;
+  position: absolute;
+  right: 60px;
 }
 .hides {
   display: none;
-  /* visibility: hidden */
 }
